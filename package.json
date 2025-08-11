@@ -1,0 +1,20 @@
+{
+  "name": "adify",
+  "version": "1.0.0",
+  "description": "A modern, responsive advertisement platform built with vanilla HTML, CSS, and JavaScript. This project is designed to be deployed on Vercel and provides a user-friendly interface for browsing and discovering advertisements.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tibrahi/Adify.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tibrahi/Adify/issues"
+  },
+  "homepage": "https://github.com/Tibrahi/Adify#readme"
+}
