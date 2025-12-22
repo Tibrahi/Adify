@@ -3,60 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adify | Fan Alert Network</title>
+    <title>Adify Rwanda | Stars & Events Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style/styles.css">
 </head>
-<body class="bg-slate-50 text-slate-900 font-sans">
+<body class="bg-stone-50 text-slate-900 font-sans">
 
-    <div class="bg-red-600 text-white py-2 overflow-hidden whitespace-nowrap">
+    <div class="bg-emerald-700 text-white py-2 overflow-hidden whitespace-nowrap">
         <div class="inline-block animate-marquee font-bold uppercase text-sm">
-            🔥 NEW TOUR DATES ANNOUNCED FOR LONDON • ALBUM DROP IN 2 HOURS • VIP TICKETS SELLING FAST •  
+            🇷🇼 KIGALI JAZZ JUNCTION TICKETS ON SALE • VISIT RWANDA: GORILLA TREKKING SEASON IS HERE • BK ARENA HOSTING AFROBASKET 2026 •  
         </div>
     </div>
 
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+    <nav class="bg-white/80 backdrop-blur-md border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <span class="text-3xl font-black text-red-600 tracking-tighter">ADIFY</span>
-                <span class="bg-slate-900 text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-widest">Fans</span>
+                <span class="text-3xl font-black text-emerald-700 tracking-tighter">ADIFY</span>
+                <span class="text-xs bg-yellow-400 px-2 py-0.5 rounded font-bold uppercase">RW</span>
             </div>
-            <div class="flex gap-6 items-center">
-                <button class="text-slate-500 hover:text-red-600 font-semibold text-sm uppercase">Live Updates</button>
-                <button class="bg-red-600 text-white px-5 py-2 rounded-full font-bold text-sm hover:shadow-lg transition">Subscribe</button>
+            <div class="hidden md:flex gap-8 items-center font-bold text-sm uppercase text-slate-600">
+                <a href="#" class="hover:text-emerald-700">Events</a>
+                <a href="#" class="hover:text-emerald-700">Tourism</a>
+                <a href="#" class="hover:text-emerald-700">Stars</a>
             </div>
+            <button class="bg-emerald-700 text-white px-6 py-2.5 rounded-full font-bold shadow-lg shadow-emerald-200 hover:scale-105 transition">Post Alert</button>
         </div>
     </nav>
 
-    <header class="bg-slate-900 py-16 text-white text-center px-4 relative overflow-hidden">
-        <div class="max-w-4xl mx-auto relative z-10">
-            <h1 class="text-4xl md:text-6xl font-black mb-4 uppercase leading-none">The Fan Hub</h1>
-            <p class="text-slate-400 text-lg md:text-xl font-medium">Real-time advertisements and alerts for upcoming star events.</p>
-        </div>
-        <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-            <i class="fas fa-bullhorn text-[20rem] -rotate-12 absolute -left-20 -bottom-20"></i>
+    <header class="relative py-20 px-6 overflow-hidden bg-emerald-900 text-white">
+        <div class="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2">
+                <span class="bg-yellow-400 text-emerald-900 px-4 py-1 rounded-full text-xs font-black uppercase mb-4 inline-block">Official Fan Hub</span>
+                <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">Experience <br><span class="text-yellow-400 italic">Rwanda</span> Like Never Before.</h1>
+                <p class="text-emerald-100 text-lg mb-8 max-w-lg">From the lights of BK Arena to the misty hills of Musanze. Your source for every major star, event, and update in the Land of a Thousand Hills.</p>
+                <div class="flex gap-4">
+                    <button class="bg-white text-emerald-900 px-8 py-4 rounded-2xl font-black shadow-xl">Explore Events</button>
+                </div>
+            </div>
+            <div class="md:w-1/2 grid grid-cols-2 gap-4">
+                <img src="https://images.unsplash.com/photo-1590019236746-880629a8a72a?w=400" class="rounded-3xl rotate-3 shadow-2xl" alt="Kigali City">
+                <img src="https://images.unsplash.com/photo-1620313360490-67451405e368?w=400" class="rounded-3xl -rotate-6 shadow-2xl mt-8" alt="Gorilla">
+            </div>
         </div>
     </header>
 
-    <section class="max-w-7xl mx-auto px-6 -mt-8 relative z-20">
-        <div class="bg-white p-4 rounded-2xl shadow-xl border border-slate-100 flex flex-wrap gap-3 justify-center">
-            <button class="filter-btn active">All Alerts</button>
-            <button class="filter-btn">Concerts</button>
-            <button class="filter-btn">Meet & Greets</button>
-            <button class="filter-btn">Merch Drops</button>
-            <button class="filter-btn">Interviews</button>
+    <section class="max-w-7xl mx-auto px-6 py-16">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="category-box group">
+                <i class="fas fa-microphone-alt text-2xl text-emerald-700"></i>
+                <span class="font-bold">Music & Arts</span>
+            </div>
+            <div class="category-box group">
+                <i class="fas fa-basketball-ball text-2xl text-orange-500"></i>
+                <span class="font-bold">Sports</span>
+            </div>
+            <div class="category-box group">
+                <i class="fas fa-mountain text-2xl text-emerald-500"></i>
+                <span class="font-bold">Tourism</span>
+            </div>
+            <div class="category-box group">
+                <i class="fas fa-calendar-check text-2xl text-blue-500"></i>
+                <span class="font-bold">Festivals</span>
+            </div>
         </div>
     </section>
 
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" id="noticeGrid">
+    <main class="max-w-7xl mx-auto px-6 pb-24">
+        <h2 class="text-3xl font-black mb-10 border-l-8 border-yellow-400 pl-4 uppercase italic">Live Advertisements</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="rwandaAds">
             </div>
     </main>
 
-    <footer class="bg-white border-t border-slate-200 py-12 mt-12">
+    <footer class="bg-emerald-950 text-emerald-100 py-16">
         <div class="max-w-7xl mx-auto px-6 text-center">
-            <p class="font-bold text-slate-400 uppercase tracking-widest text-xs">&copy; 2025 ADIFY FAN NETWORK • ALL UPDATES VERIFIED</p>
+            <p class="font-bold tracking-widest text-sm opacity-50 uppercase mb-4">&copy; 2025 ADIFY RWANDA • KIGALI HUB</p>
+            <div class="flex justify-center gap-6 text-2xl">
+                <i class="fab fa-instagram hover:text-yellow-400 cursor-pointer"></i>
+                <i class="fab fa-twitter hover:text-yellow-400 cursor-pointer"></i>
+                <i class="fab fa-facebook hover:text-yellow-400 cursor-pointer"></i>
+            </div>
         </div>
     </footer>
 
