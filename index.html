@@ -3,101 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adify - Your Advertisement Platform</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
-    <link rel="manifest" href="./assets/site.webmanifest">
-    <link rel="stylesheet" href="./style/styles.css">
+    <title>Adify Fans | Connect With Your Stars</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style/styles.css">
 </head>
-<body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <h1>Adify</h1>
-            </div>
-            <div class="nav-links">
-                <a href="#home" class="active">Home</a>
-                <a href="#categories">Categories</a>
-                <a href="#featured">Featured</a>
-                <a href="#about">About</a>
-            </div>
-            <div class="auth-buttons">
-                <button class="login-btn">Login</button>
-                <button class="signup-btn">Sign Up</button>
-            </div>
-        </nav>
-    </header>
+<body class="bg-black text-white font-sans overflow-x-hidden">
 
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Discover Amazing Products</h1>
-                <p>Find the best deals and promotions all in one place</p>
-                <div class="search-container">
-                    <input type="text" placeholder="Search for products...">
-                    <button><i class="fas fa-search"></i></button>
+    <nav class="fixed top-0 w-full z-50 bg-black/60 backdrop-blur-xl border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-tr from-purple-600 to-pink-500 p-2 rounded-xl rotate-3">
+                    <i class="fas fa-star text-white"></i>
                 </div>
+                <span class="text-2xl font-black tracking-tighter uppercase italic">Adify</span>
             </div>
-        </section>
+            
+            <div class="hidden md:flex space-x-10 font-semibold text-sm uppercase tracking-widest text-gray-400">
+                <a href="#events" class="hover:text-pink-500 transition">Events</a>
+                <a href="#stars" class="hover:text-pink-500 transition">Stars</a>
+                <a href="#exclusive" class="hover:text-pink-500 transition">Exclusives</a>
+                <a href="#merch" class="hover:text-pink-500 transition">Merch</a>
+            </div>
 
-        <section class="categories" id="categories">
-            <h2>Popular Categories</h2>
-            <div class="category-grid">
-                <div class="category-card">
-                    <i class="fas fa-mobile-alt"></i>
-                    <h3>Electronics</h3>
-                </div>
-                <div class="category-card">
-                    <i class="fas fa-tshirt"></i>
-                    <h3>Fashion</h3>
-                </div>
-                <div class="category-card">
-                    <i class="fas fa-home"></i>
-                    <h3>Home & Living</h3>
-                </div>
-                <div class="category-card">
-                    <i class="fas fa-car"></i>
-                    <h3>Automotive</h3>
-                </div>
-            </div>
-        </section>
-
-        <section class="featured-ads" id="featured">
-            <h2>Featured Advertisements</h2>
-            <div class="ads-grid" id="adsContainer">
-                <!-- Ads will be dynamically loaded here -->
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>About Adify</h3>
-                <p>Your trusted platform for discovering amazing products and services.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#categories">Categories</a></li>
-                    <li><a href="#featured">Featured</a></li>
-                    <li><a href="#about">About</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Us</h3>
-                <p>Email: support@adify.com</p>
-                <p>Phone: (555) 123-4567</p>
+            <div class="flex gap-4">
+                <button class="bg-white text-black px-6 py-2 rounded-full font-bold hover:bg-pink-500 hover:text-white transition-all">Join Fan Club</button>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Adify. All rights reserved.</p>
+    </nav>
+
+    <section class="relative h-[90vh] flex items-center justify-center pt-20">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1459749411177-042180ce673c?auto=format&fit=crop&q=80&w=1920" 
+                 class="w-full h-full object-cover opacity-40 grayscale" alt="Concert Crowd">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4">
+            <h1 class="text-6xl md:text-8xl font-black mb-6 uppercase italic leading-none">
+                Closer to <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">The Stars</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 font-light tracking-wide">
+                Exclusive access to world tours, private meetups, and behind-the-scenes content from your favorite artists and creators.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="#events" class="bg-pink-600 px-10 py-4 rounded-full font-bold text-lg hover:scale-105 transition shadow-lg shadow-pink-500/20">Browse Events</a>
+                <a href="#" class="border border-white/20 px-10 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition">Latest News</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="stars" class="py-24 bg-zinc-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 flex items-center gap-4">
+                <span class="w-12 h-1 bg-pink-600"></span> Trending Stars
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div id="starGrid" class="contents"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="events" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+                <div>
+                    <h2 class="text-5xl font-black italic uppercase">Upcoming Events</h2>
+                    <p class="text-gray-500 mt-2 italic">Secure your spot in the front row</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="bg-zinc-800 p-3 rounded-full hover:bg-pink-600"><i class="fas fa-arrow-left"></i></button>
+                    <button class="bg-zinc-800 p-3 rounded-full hover:bg-pink-600"><i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="eventsContainer">
+                </div>
+        </div>
+    </section>
+
+    <section id="exclusive" class="py-24 bg-gradient-to-b from-black to-purple-950/30">
+        <div class="max-w-5xl mx-auto px-6 bg-zinc-900 rounded-[3rem] p-12 border border-white/5 relative overflow-hidden">
+            <div class="relative z-10">
+                <span class="text-pink-500 font-bold tracking-widest uppercase text-sm">Members Only</span>
+                <h2 class="text-4xl font-bold mt-4 mb-6">Unlock "The Backstage Pass"</h2>
+                <ul class="space-y-4 mb-8 text-gray-300">
+                    <li class="flex items-center gap-3"><i class="fas fa-check text-pink-500"></i> Early Bird Ticket Access</li>
+                    <li class="flex items-center gap-3"><i class="fas fa-check text-pink-500"></i> Exclusive Merch Drops</li>
+                    <li class="flex items-center gap-3"><i class="fas fa-check text-pink-500"></i> Direct Fan-to-Star Chat Rooms</li>
+                </ul>
+                <button class="bg-white text-black px-8 py-3 rounded-full font-bold">Get Full Access</button>
+            </div>
+            <i class="fas fa-ticket-alt absolute -right-10 -bottom-10 text-[15rem] text-white/5 -rotate-12"></i>
+        </div>
+    </section>
+
+    <footer class="py-20 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
+            <div class="col-span-1">
+                <span class="text-2xl font-black italic italic mb-6 block">ADIFY.FANS</span>
+                <p class="text-gray-500 leading-relaxed">The official bridge between the world's biggest talents and their most dedicated supporters.</p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6 uppercase text-sm tracking-widest text-pink-500">Explore</h4>
+                <ul class="text-gray-400 space-y-4">
+                    <li><a href="#">World Tours</a></li>
+                    <li><a href="#">Award Shows</a></li>
+                    <li><a href="#">Fan Meetups</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6 uppercase text-sm tracking-widest text-pink-500">Support</h4>
+                <ul class="text-gray-400 space-y-4">
+                    <li><a href="#">Ticket FAQ</a></li>
+                    <li><a href="#">Safety Policy</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6 uppercase text-sm tracking-widest text-pink-500">Follow</h4>
+                <div class="flex gap-4 text-xl">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <script src="./script/script.js"></script>
+    <script src="script/script.js"></script>
 </body>
-</html> 
+</html>
