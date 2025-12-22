@@ -1,195 +1,94 @@
-// Sample advertisement data
-const advertisements = [
-    {
-        id: 1,
-        title: "Premium Smartphone",
-        description: "Latest model with amazing features",
-        price: "$999",
-        image: "https://via.placeholder.com/300x200",
-        category: "Electronics"
-    },
-    {
-        id: 2,
-        title: "Designer Watch",
-        description: "Luxury timepiece for the modern professional",
-        price: "$299",
-        image: "https://via.placeholder.com/300x200",
-        category: "Fashion"
-    },
-    {
-        id: 3,
-        title: "Smart Home System",
-        description: "Control your home with voice commands",
-        price: "$499",
-        image: "https://via.placeholder.com/300x200",
-        category: "Home & Living"
-    },
-    {
-        id: 4,
-        title: "Electric Vehicle",
-        description: "Eco-friendly transportation solution",
-        price: "$45,000",
-        image: "https://via.placeholder.com/300x200",
-        category: "Automotive"
-    }
-];
+document.addEventListener('DOMContentLoaded', () => {
+    const adsContainer = document.getElementById('adsContainer');
 
-// DOM Elements
-const adsContainer = document.getElementById('adsContainer');
-const searchInput = document.querySelector('.search-container input');
-const searchButton = document.querySelector('.search-container button');
-const categoryCards = document.querySelectorAll('.category-card');
+    // Sample Data for Featured Ads
+    const ads = [
+        {
+            id: 1,
+            title: "iPhone 15 Pro Max - Titanium",
+            price: "$999",
+            category: "Electronics",
+            image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&q=80&w=400",
+            location: "New York, NY"
+        },
+        {
+            id: 2,
+            title: "Vintage Leather Jacket",
+            price: "$120",
+            category: "Fashion",
+            image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=80&w=400",
+            location: "Austin, TX"
+        },
+        {
+            id: 3,
+            title: "Modern Minimalist Sofa",
+            price: "$450",
+            category: "Home",
+            image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=400",
+            location: "Chicago, IL"
+        },
+        {
+            id: 4,
+            title: "Electric Mountain Bike",
+            price: "$1,250",
+            category: "Sports",
+            image: "https://images.unsplash.com/photo-1571068316344-75bc76f77894?auto=format&fit=crop&q=80&w=400",
+            location: "Denver, CO"
+        },
+        {
+            id: 5,
+            title: "Professional DSLR Camera",
+            price: "$890",
+            category: "Electronics",
+            image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=400",
+            location: "Seattle, WA"
+        },
+        {
+            id: 6,
+            title: "Luxury Wrist Watch",
+            price: "$3,400",
+            category: "Fashion",
+            image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=400",
+            location: "Miami, FL"
+        }
+    ];
 
-// Function to create advertisement cards
-function createAdCard(ad) {
-    const card = document.createElement('div');
-    card.className = 'ad-card';
-    card.innerHTML = `
-        <img src="${ad.image}" alt="${ad.title}">
-        <div class="ad-content">
-            <h3>${ad.title}</h3>
-            <p>${ad.description}</p>
-            <div class="ad-footer">
-                <span class="price">${ad.price}</span>
-                <button class="view-details">View Details</button>
+    // Render Ads
+    function renderAds() {
+        adsContainer.innerHTML = ads.map(ad => `
+            <div class="ad-card bg-white rounded-3xl overflow-hidden border border-gray-100">
+                <div class="relative">
+                    <img src="${ad.image}" alt="${ad.title}" class="w-full h-56 object-cover">
+                    <span class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold shadow-sm">
+                        ${ad.category}
+                    </span>
+                    <button class="absolute top-4 right-4 bg-white/90 backdrop-blur p-2 rounded-full shadow-sm hover:text-red-500 transition">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-lg leading-tight hover:text-blue-600 cursor-pointer transition">${ad.title}</h3>
+                    </div>
+                    <p class="text-blue-600 font-extrabold text-xl mb-4">${ad.price}</p>
+                    <div class="flex items-center text-gray-400 text-sm border-t pt-4">
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        <span>${ad.location}</span>
+                    </div>
+                </div>
             </div>
-        </div>
-    `;
-    return card;
-}
-
-// Function to display advertisements
-function displayAds(ads) {
-    adsContainer.innerHTML = '';
-    ads.forEach(ad => {
-        const card = createAdCard(ad);
-        adsContainer.appendChild(card);
-    });
-}
-
-// Function to filter advertisements
-function filterAds(query) {
-    query = query.toLowerCase();
-    return advertisements.filter(ad => 
-        ad.title.toLowerCase().includes(query) ||
-        ad.description.toLowerCase().includes(query) ||
-        ad.category.toLowerCase().includes(query)
-    );
-}
-
-// Function to filter by category
-function filterByCategory(category) {
-    return advertisements.filter(ad => ad.category === category);
-}
-
-// Event Listeners
-searchButton.addEventListener('click', () => {
-    const query = searchInput.value.trim();
-    const filteredAds = filterAds(query);
-    displayAds(filteredAds);
-});
-
-searchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        const query = searchInput.value.trim();
-        const filteredAds = filterAds(query);
-        displayAds(filteredAds);
+        `).join('');
     }
-});
 
-// Add click event listeners to category cards
-categoryCards.forEach(card => {
-    card.addEventListener('click', () => {
-        const category = card.querySelector('h3').textContent;
-        const filteredAds = filterByCategory(category);
-        displayAds(filteredAds);
-    });
-});
+    renderAds();
 
-// Add smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth'
-            });
+    // Simple Navbar effect on scroll
+    window.addEventListener('scroll', () => {
+        const nav = document.querySelector('nav');
+        if (window.scrollY > 20) {
+            nav.classList.add('shadow-md');
+        } else {
+            nav.classList.remove('shadow-md');
         }
     });
 });
-
-// Add hover effect to ad cards
-document.addEventListener('mouseover', (e) => {
-    if (e.target.closest('.ad-card')) {
-        e.target.closest('.ad-card').style.transform = 'translateY(-5px)';
-        e.target.closest('.ad-card').style.transition = 'transform 0.3s ease';
-    }
-});
-
-document.addEventListener('mouseout', (e) => {
-    if (e.target.closest('.ad-card')) {
-        e.target.closest('.ad-card').style.transform = 'translateY(0)';
-    }
-});
-
-// Initialize the page with all advertisements
-displayAds(advertisements);
-
-// Add styles for ad cards
-const style = document.createElement('style');
-style.textContent = `
-    .ad-card {
-        background: white;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-    }
-
-    .ad-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-    }
-
-    .ad-content {
-        padding: 1rem;
-    }
-
-    .ad-content h3 {
-        margin-bottom: 0.5rem;
-        color: #1e293b;
-    }
-
-    .ad-content p {
-        color: #64748b;
-        margin-bottom: 1rem;
-    }
-
-    .ad-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .price {
-        font-weight: bold;
-        color: #2563eb;
-    }
-
-    .view-details {
-        padding: 0.5rem 1rem;
-        background-color: #2563eb;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .view-details:hover {
-        background-color: #1d4ed8;
-    }
-`;
-document.head.appendChild(style); 
