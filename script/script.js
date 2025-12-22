@@ -1,94 +1,81 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const adsContainer = document.getElementById('adsContainer');
+    
+    // Data for Stars
+    const stars = [
+        { name: "The Weeknd", img: "https://images.unsplash.com/photo-1619983081563-430f63602796?w=400" },
+        { name: "Billie Eilish", img: "https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?w=400" },
+        { name: "Travis Scott", img: "https://images.unsplash.com/photo-1611605698335-8b1569810432?w=400" },
+        { name: "Dua Lipa", img: "https://images.unsplash.com/photo-1581456485147-bc47bd242ad5?w=400" },
+        { name: "Bad Bunny", img: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=400" }
+    ];
 
-    // Sample Data for Featured Ads
-    const ads = [
+    // Data for Events
+    const events = [
         {
             id: 1,
-            title: "iPhone 15 Pro Max - Titanium",
-            price: "$999",
-            category: "Electronics",
-            image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&q=80&w=400",
-            location: "New York, NY"
+            title: "After Hours Til Dawn Tour",
+            star: "The Weeknd",
+            date: "Dec 28, 2025",
+            image: "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=600",
+            price: "From $150",
+            tag: "World Tour"
         },
         {
             id: 2,
-            title: "Vintage Leather Jacket",
-            price: "$120",
-            category: "Fashion",
-            image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=80&w=400",
-            location: "Austin, TX"
+            title: "Coachella Main Stage",
+            star: "Various Artists",
+            date: "April 15, 2026",
+            image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600",
+            price: "From $499",
+            tag: "Festival"
         },
         {
             id: 3,
-            title: "Modern Minimalist Sofa",
-            price: "$450",
-            category: "Home",
-            image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=400",
-            location: "Chicago, IL"
-        },
-        {
-            id: 4,
-            title: "Electric Mountain Bike",
-            price: "$1,250",
-            category: "Sports",
-            image: "https://images.unsplash.com/photo-1571068316344-75bc76f77894?auto=format&fit=crop&q=80&w=400",
-            location: "Denver, CO"
-        },
-        {
-            id: 5,
-            title: "Professional DSLR Camera",
-            price: "$890",
-            category: "Electronics",
-            image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=400",
-            location: "Seattle, WA"
-        },
-        {
-            id: 6,
-            title: "Luxury Wrist Watch",
-            price: "$3,400",
-            category: "Fashion",
-            image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=400",
-            location: "Miami, FL"
+            title: "Exclusive Fan Meetup",
+            star: "Billie Eilish",
+            date: "Jan 12, 2026",
+            image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600",
+            price: "Invite Only",
+            tag: "VIP Access"
         }
     ];
 
-    // Render Ads
-    function renderAds() {
-        adsContainer.innerHTML = ads.map(ad => `
-            <div class="ad-card bg-white rounded-3xl overflow-hidden border border-gray-100">
-                <div class="relative">
-                    <img src="${ad.image}" alt="${ad.title}" class="w-full h-56 object-cover">
-                    <span class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold shadow-sm">
-                        ${ad.category}
-                    </span>
-                    <button class="absolute top-4 right-4 bg-white/90 backdrop-blur p-2 rounded-full shadow-sm hover:text-red-500 transition">
-                        <i class="far fa-heart"></i>
-                    </button>
-                </div>
-                <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="font-bold text-lg leading-tight hover:text-blue-600 cursor-pointer transition">${ad.title}</h3>
-                    </div>
-                    <p class="text-blue-600 font-extrabold text-xl mb-4">${ad.price}</p>
-                    <div class="flex items-center text-gray-400 text-sm border-t pt-4">
-                        <i class="fas fa-map-marker-alt mr-2"></i>
-                        <span>${ad.location}</span>
-                    </div>
+    // Render Stars
+    const starGrid = document.getElementById('starGrid');
+    starGrid.innerHTML = stars.map(star => `
+        <div class="star-circle">
+            <img src="${star.img}" alt="${star.name}">
+            <p class="font-bold text-sm uppercase tracking-tighter">${star.name}</p>
+        </div>
+    `).join('');
+
+    // Render Events
+    const eventsContainer = document.getElementById('eventsContainer');
+    eventsContainer.innerHTML = events.map(event => `
+        <div class="event-card group">
+            <div class="relative h-64 overflow-hidden">
+                <img src="${event.image}" alt="${event.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute top-4 left-4 bg-pink-600 text-xs font-black px-3 py-1 rounded-full uppercase">
+                    ${event.tag}
                 </div>
             </div>
-        `).join('');
-    }
-
-    renderAds();
-
-    // Simple Navbar effect on scroll
-    window.addEventListener('scroll', () => {
-        const nav = document.querySelector('nav');
-        if (window.scrollY > 20) {
-            nav.classList.add('shadow-md');
-        } else {
-            nav.classList.remove('shadow-md');
-        }
-    });
+            <div class="p-8">
+                <p class="text-pink-500 text-xs font-bold uppercase tracking-widest mb-2">${event.star}</p>
+                <h3 class="text-2xl font-bold mb-4 leading-tight">${event.title}</h3>
+                <div class="flex justify-between items-center border-t border-white/10 pt-6">
+                    <div>
+                        <p class="text-gray-500 text-xs uppercase">Date</p>
+                        <p class="font-bold">${event.date}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-gray-500 text-xs uppercase">Tickets</p>
+                        <p class="font-bold text-pink-500">${event.price}</p>
+                    </div>
+                </div>
+                <button class="w-full mt-6 bg-white text-black py-3 rounded-xl font-black hover:bg-pink-600 hover:text-white transition">
+                    BOOK NOW
+                </button>
+            </div>
+        </div>
+    `).join('');
 });

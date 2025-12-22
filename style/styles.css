@@ -1,28 +1,42 @@
-/* Custom Card Styles */
-.cat-card {
-    @apply bg-white p-8 rounded-3xl text-center border border-gray-100 transition-all duration-300 cursor-pointer;
+/* Custom Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
 }
 
-.cat-card:hover {
-    @apply shadow-2xl shadow-blue-100 -translate-y-2 border-blue-200;
+.event-card {
+    @apply relative overflow-hidden rounded-3xl bg-zinc-900 border border-white/5 transition-all duration-500;
 }
 
-/* Ad Card Custom Styling */
-.ad-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.event-card:hover {
+    @apply border-pink-500/50 -translate-y-2;
+    box-shadow: 0 20px 40px -10px rgba(219, 39, 119, 0.2);
 }
 
-.ad-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+.star-circle {
+    @apply flex flex-col items-center gap-4 cursor-pointer transition-all duration-300;
 }
 
-/* Smooth Scrolling */
-html {
-    scroll-behavior: smooth;
+.star-circle img {
+    @apply w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-2 border-transparent transition-all;
 }
 
-/* Custom Gradients */
-.hero-gradient {
-    background: radial-gradient(circle at top right, #eff6ff 0%, #ffffff 50%);
+.star-circle:hover img {
+    @apply border-pink-500 scale-105;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #000;
+}
+::-webkit-scrollbar-thumb {
+    background: #27272a;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #db2777;
 }
