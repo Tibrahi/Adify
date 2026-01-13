@@ -1,15 +1,14 @@
-/* script/auth.js - Updated for Dashboard & Shoutouts */
+/* Adify Auth Logic 
+    Uses Dexie.js for IndexedDB & File API for Transfer 
+*/
 
-// 1. Initialize Database (Updated Schema)
+// 1. Initialize Database
 const db = new Dexie('AdifyDatabase');
-
-// Version 2: Added 'shoutouts' store and extra user fields
-db.version(2).stores({
-    users: '++id, email, password, fullName, joinedDate, bio, location, favStar, avatar',
-    shoutouts: '++id, userId, title, message, date'
+db.version(1).stores({
+    users: '++id, email, password, fullName, joinedDate' // Primary key and indexed props
 });
 
-// 2. UI Toggles (Same as before)
+// 2. UI Toggles
 function toggleForms() {
     const login = document.getElementById('loginSection');
     const signup = document.getElementById('signupSection');
@@ -30,48 +29,57 @@ function toggleForms() {
 // 3. Handle Sign Up
 document.getElementById('signupForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    
     const fullName = document.getElementById('regName').value;
     const email = document.getElementById('regEmail').value;
-    const password = document.getElementById('regPass').value;
+    const password = document.getElementById('regPass').value; // In real prod, hash this!
 
     try {
+        // Check if exists
         const existingUser = await db.users.where('email').equals(email).first();
         if (existingUser) {
             alert('User with this email already exists!');
             return;
         }
+
+        // Add to IndexedDB
         await db.users.add({
-            fullName, email, password,
-            joinedDate: new Date().toISOString(),
-            bio: "I'm a new fan!", // Default
-            location: "Kigali",
-            favStar: "None"
+            fullName,
+            email,
+            password,
+            joinedDate: new Date().toISOString()
         });
+
         alert('Account Created! Please Login.');
         toggleForms();
         document.getElementById('signupForm').reset();
+
     } catch (error) {
         console.error('Signup Error:', error);
         alert('Could not create account.');
     }
 });
 
-// 4. Handle Login (Redirects to Dashboard now)
+// 4. Handle Login
 document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPass').value;
 
     try {
         const user = await db.users.where('email').equals(email).first();
+
         if (user && user.password === password) {
+            // Set Session (Simple LocalStorage for session)
             localStorage.setItem('adifyUser', JSON.stringify({
-                id: user.id,
                 name: user.fullName,
-                email: user.email
+                email: user.email,
+                id: user.id
             }));
-            // REDIRECT TO DASHBOARD
-            window.location.href = 'dashboard.html'; 
+            
+            // Redirect to home
+            window.location.href = 'index.html';
         } else {
             alert('Invalid credentials');
         }
@@ -80,21 +88,24 @@ document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
     }
 });
 
-// 5. Data Export (Backup Profile & Shoutouts)
+// 5. Data Transfer System (Bluetooth/Share Simulation)
+// Since Browsers can't direct-bluetooth JSON, we export a file 
+// that the user sends via Bluetooth/WhatsApp, then imports on the other device.
+
 async function exportData() {
     try {
-        const users = await db.users.toArray();
-        const shoutouts = await db.shoutouts.toArray();
-        const exportObj = { users, shoutouts, type: 'adify_full_backup' };
-        
-        const dataStr = JSON.stringify(exportObj);
+        const allUsers = await db.users.toArray();
+        const dataStr = JSON.stringify(allUsers);
         const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+        
+        const exportFileDefaultName = `adify_backup_${new Date().toISOString().slice(0,10)}.json`;
         
         const linkElement = document.createElement('a');
         linkElement.setAttribute('href', dataUri);
-        linkElement.setAttribute('download', `adify_backup_${new Date().getTime()}.json`);
+        linkElement.setAttribute('download', exportFileDefaultName);
         linkElement.click();
-        alert("Backup file ready for Bluetooth transfer!");
+        
+        alert("Backup file created! \n\nYou can now share this file via Bluetooth or WhatsApp to another device.");
     } catch (err) {
         alert("Error exporting data");
     }
@@ -108,16 +119,16 @@ async function importData(inputElement) {
     reader.onload = async function(e) {
         try {
             const data = JSON.parse(e.target.result);
-            if (data.type === 'adify_full_backup') {
-                await db.users.bulkPut(data.users);
-                await db.shoutouts.bulkPut(data.shoutouts);
-                alert("System synced successfully!");
+            if (Array.isArray(data)) {
+                // Clear existing or merge? Let's merge/overwrite based on email
+                await db.users.bulkPut(data);
+                alert("Data imported successfully! You can now log in.");
                 window.location.reload();
             } else {
-                alert("Invalid Adify Backup File");
+                alert("Invalid file format");
             }
         } catch (err) {
-            alert("Error reading file");
+            alert("Error reading file: " + err);
         }
     };
     reader.readAsText(file);
