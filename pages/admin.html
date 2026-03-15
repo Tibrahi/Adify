@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adify Dashboard</title>
+    <title>Adify - Ad Manager</title>
     <!-- Google Fonts & Font Awesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Chart.js CDN -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../style/dashboard.css">
@@ -20,15 +20,13 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2><i class="fas fa-bullhorn"></i> Adify</h2>
-                <p>Admin Dashboard</p>
+                <p>Ad Management</p>
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li class="active"><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                    <li><a href="#"><i class="fas fa-ad"></i> Advertisements</a></li>
-                    <li><a href="#"><i class="fas fa-users"></i> Users</a></li>
-                    <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
-                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                    <li class="active" data-view="dashboard"><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li data-view="ads"><a href="#"><i class="fas fa-ad"></i> Advertisements</a></li>
+                    <li data-view="add"><a href="#"><i class="fas fa-plus-circle"></i> Add New Ad</a></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -42,82 +40,103 @@
             <header class="dashboard-header">
                 <div class="header-search">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search...">
+                    <input type="text" id="searchInput" placeholder="Search ads...">
                 </div>
                 <div class="header-profile">
                     <i class="fas fa-bell"></i>
                     <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Admin" class="profile-img">
-                    <span>John Doe</span>
+                    <span>Demo User</span>
                 </div>
             </header>
 
-            <!-- Dashboard Content -->
-            <div class="dashboard-content">
-                <!-- Stats Cards -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-ad"></i></div>
-                        <div class="stat-details">
-                            <h3>Total Ads</h3>
-                            <p id="totalAds">1,254</p>
-                        </div>
+            <!-- Dynamic Content Views -->
+            <div class="dashboard-content" id="appView">
+                <!-- Dashboard View (default) -->
+                <div id="dashboardView" class="view active">
+                    <div class="stats-grid" id="statsGrid">
+                        <!-- Filled by JS -->
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
-                        <div class="stat-details">
-                            <h3>Active Ads</h3>
-                            <p id="activeAds">876</p>
+                    <div class="dashboard-row">
+                        <div class="chart-container">
+                            <h3>Ad Views (Last 7 Days)</h3>
+                            <canvas id="viewsChart"></canvas>
                         </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
-                        <div class="stat-details">
-                            <h3>Pending</h3>
-                            <p id="pendingAds">124</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
-                        <div class="stat-details">
-                            <h3>Revenue</h3>
-                            <p id="revenue">$12,540</p>
+                        <div class="recent-ads">
+                            <h3>Recent Advertisements</h3>
+                            <table class="ads-table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Status</th>
+                                        <th>Impressions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentAdsTableBody"></tbody>
+                            </table>
+                            <a href="#" class="view-all" data-view="ads">View all <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Chart and Recent Ads Row -->
-                <div class="dashboard-row">
-                    <div class="chart-container">
-                        <h3>Ad Views (Last 7 Days)</h3>
-                        <canvas id="viewsChart"></canvas>
+                <!-- Ads List View -->
+                <div id="adsView" class="view">
+                    <div class="view-header">
+                        <h2>All Advertisements</h2>
+                        <button class="btn-primary" data-view="add"><i class="fas fa-plus"></i> New Ad</button>
                     </div>
-                    <div class="recent-ads">
-                        <h3>Recent Advertisements</h3>
-                        <table class="ads-table">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Status</th>
-                                    <th>Impressions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="recentAdsTableBody">
-                                <!-- Filled by JavaScript -->
-                            </tbody>
-                        </table>
-                        <a href="#" class="view-all">View all <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                    <table class="ads-table full-width" id="adsTable">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Impressions</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adsTableBody"></tbody>
+                    </table>
+                    <p id="emptyAdsMessage" class="empty-message">No ads yet. Click "New Ad" to create one.</p>
                 </div>
 
-                <!-- Quick Actions -->
-                <div class="quick-actions">
-                    <h3>Quick Actions</h3>
-                    <div class="actions-grid">
-                        <button class="action-btn"><i class="fas fa-plus-circle"></i> New Ad</button>
-                        <button class="action-btn"><i class="fas fa-user-plus"></i> Add User</button>
-                        <button class="action-btn"><i class="fas fa-file-export"></i> Export Report</button>
-                        <button class="action-btn"><i class="fas fa-cog"></i> Settings</button>
+                <!-- Add/Edit Ad View -->
+                <div id="addEditView" class="view">
+                    <div class="view-header">
+                        <h2 id="formTitle">Add New Advertisement</h2>
                     </div>
+                    <form id="adForm" class="ad-form">
+                        <input type="hidden" id="adId">
+                        <div class="form-group">
+                            <label for="title">Title *</label>
+                            <input type="text" id="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" rows="3"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select id="status">
+                                    <option value="active">Active</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="impressions">Impressions (number)</label>
+                                <input type="number" id="impressions" value="0" min="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="imageUrl">Image URL (optional)</label>
+                            <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Save Ad</button>
+                            <button type="button" class="btn-secondary" data-view="ads">Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </main>
