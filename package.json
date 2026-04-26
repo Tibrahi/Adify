@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/Tibrahi/Adify/issues"
   },
-  "homepage": "https://github.com/Tibrahi/Adify#readme"
+  "homepage": "https://github.com/Tibrahi/Adify#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongodb": "^7.2.0",
+    "mongoose": "^9.5.0"
+  }
 }
