@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adify | Feed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+  <!-- ── App Shell ── -->
+  <div class="app-layout" id="appLayout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-text">ADIFY</span>
+        <span class="brand-sub">Rwanda</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="feed" onclick="switchTab('feed', this)">
+          <i class="fas fa-th-large"></i><span>Feed</span>
+        </button>
+        <button class="nav-item" data-tab="myEvents" onclick="switchTab('myEvents', this)">
+          <i class="fas fa-bullhorn"></i><span>My Events</span>
+        </button>
+        <button class="nav-item" data-tab="profile" onclick="switchTab('profile', this)">
+          <i class="fas fa-user-circle"></i><span>Profile</span>
+        </button>
+        <a href="index.html" class="nav-item">
+          <i class="fas fa-globe"></i><span>Public Site</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-user" id="sidebarUser">
+        <div class="su-avatar" id="suAvatar">U</div>
+        <div class="su-info">
+          <div class="su-name" id="suName">Loading...</div>
+          <div class="su-location" id="suLocation"></div>
+        </div>
+      </div>
+
+      <button class="logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> Log Out
+      </button>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-area">
+      <!-- Top bar -->
+      <header class="topbar">
+        <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <div class="topbar-title" id="topbarTitle">Discovery Feed</div>
+        <button class="create-btn" onclick="openCreateModal()">
+          <i class="fas fa-plus"></i> <span>Post Event</span>
+        </button>
+      </header>
+
+      <!-- Feed Tab -->
+      <section class="tab-view active" id="tab-feed">
+        <!-- Filters -->
+        <div class="filter-bar">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="feedSearch" placeholder="Search events..." oninput="debounce(loadFeed, 400)()">
+          </div>
+          <div class="filter-chips">
+            <button class="fc active" data-filter="" onclick="setFilter('', this)">All</button>
+            <button class="fc" data-filter="active" onclick="setFilter('active', this)">🟢 Active</button>
+            <button class="fc" data-filter="postponed" onclick="setFilter('postponed', this)">🟡 Postponed</button>
+            <button class="fc" data-filter="over" onclick="setFilter('over', this)">🔴 Over</button>
+          </div>
+          <div class="filter-chips" style="margin-top:0.5rem;flex-wrap:wrap">
+            <button class="fc-cat active" data-cat="" onclick="setCategory('', this)">All Categories</button>
+            <button class="fc-cat" data-cat="Music" onclick="setCategory('Music', this)">🎵 Music</button>
+            <button class="fc-cat" data-cat="Sports" onclick="setCategory('Sports', this)">⚽ Sports</button>
+            <button class="fc-cat" data-cat="Comedy" onclick="setCategory('Comedy', this)">😂 Comedy</button>
+            <button class="fc-cat" data-cat="Night Life" onclick="setCategory('Night Life', this)">🌙 Night Life</button>
+            <button class="fc-cat" data-cat="Art" onclick="setCategory('Art', this)">🎨 Art</button>
+            <button class="fc-cat" data-cat="Technology" onclick="setCategory('Technology', this)">💻 Tech</button>
+            <button class="fc-cat" data-cat="Food & Dining" onclick="setCategory('Food & Dining', this)">🍽️ Food</button>
+          </div>
+        </div>
+
+        <!-- Feed -->
+        <div class="feed-container" id="feedContainer">
+          <div class="feed-loading" id="feedLoading">
+            <i class="fas fa-spinner fa-spin"></i> Loading events...
+          </div>
+        </div>
+        <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+          <button class="load-more-btn" onclick="loadMoreFeed()">Load more <i class="fas fa-chevron-down"></i></button>
+        </div>
+      </section>
+
+      <!-- My Events Tab -->
+      <section class="tab-view" id="tab-myEvents">
+        <div class="tab-header">
+          <h2>My Events</h2>
+          <button class="create-btn-sm" onclick="openCreateModal()"><i class="fas fa-plus"></i> New Event</button>
+        </div>
+        <div class="feed-container" id="myEventsContainer">
+          <p class="empty-state">You haven't posted any events yet. <button onclick="openCreateModal()" class="link-btn">Post your first event</button></p>
+        </div>
+      </section>
+
+      <!-- Profile Tab -->
+      <section class="tab-view" id="tab-profile">
+        <div class="profile-shell">
+          <div class="profile-banner">
+            <div class="profile-avatar-lg" id="profileAvatarLg">U</div>
+          </div>
+          <div class="profile-body">
+            <h2 class="profile-name" id="profileName">User</h2>
+            <p class="profile-meta" id="profileMeta"></p>
+            <p class="profile-bio" id="profileBio"></p>
+
+            <div class="profile-interests" id="profileInterests"></div>
+
+            <form class="profile-form" id="profileForm">
+              <div class="pf-section">Edit Profile</div>
+              <div class="pf-grid">
+                <div class="field"><label>Full Name</label><input type="text" id="pfName"></div>
+                <div class="field"><label>Location</label>
+                  <select id="pfLocation">
+                    <option value="Kigali City">Kigali City</option>
+                    <option value="Nyarugenge">Nyarugenge</option>
+                    <option value="Gasabo">Gasabo</option>
+                    <option value="Kicukiro">Kicukiro</option>
+                    <option value="Huye">Huye</option>
+                    <option value="Musanze">Musanze</option>
+                    <option value="Rubavu">Rubavu</option>
+                    <option value="Rwamagana">Rwamagana</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="field"><label>Occupation</label><input type="text" id="pfOccupation"></div>
+                <div class="field"><label>Phone</label><input type="tel" id="pfPhone"></div>
+                <div class="field span-2"><label>Bio</label><textarea id="pfBio" rows="3"></textarea></div>
+                <div class="field span-2"><label>Avatar URL (optional)</label><input type="url" id="pfAvatar" placeholder="https://..."></div>
+              </div>
+              <div class="pf-section" style="margin-top:1.5rem">Interests</div>
+              <div class="interest-edit-grid" id="interestEditGrid"></div>
+              <div class="pf-actions">
+                <button type="submit" class="btn-save">Save Changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ── Create Event Modal ── -->
+  <div class="modal-overlay" id="createModal" onclick="closeModalOnBg(event)">
+    <div class="modal-box create-modal">
+      <div class="modal-header">
+        <h3 id="createModalTitle">Post New Event</h3>
+        <button class="modal-close" onclick="closeCreateModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" id="createModalBody">
+
+        <!-- Tabs -->
+        <div class="event-form-tabs">
+          <button class="eft active" onclick="switchEventTab('required', this)">Required</button>
+          <button class="eft" onclick="switchEventTab('details', this)">Details</button>
+          <button class="eft" onclick="switchEventTab('settings', this)">Settings</button>
+        </div>
+
+        <!-- Tab: Required -->
+        <div class="event-tab-panel active" id="etp-required">
+          <div class="field">
+            <label>Event Title *</label>
+            <input type="text" id="evTitle" placeholder="e.g. Kigali Jazz Night 2026" maxlength="200">
+          </div>
+          <div class="field">
+            <label>Category *</label>
+            <select id="evCategory">
+              <option value="">Select category...</option>
+              <option>Music</option><option>Sports</option><option>Comedy</option>
+              <option>Art</option><option>Food & Dining</option><option>Technology</option>
+              <option>Fashion</option><option>Film & Cinema</option><option>Dance</option>
+              <option>Night Life</option><option>Culture & Heritage</option>
+              <option>Business & Networking</option><option>Fitness & Wellness</option>
+              <option>Gaming</option><option>Photography</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Tab: Details -->
+        <div class="event-tab-panel" id="etp-details">
+          <div class="field">
+            <label>Description</label>
+            <textarea id="evDesc" rows="4" placeholder="Tell people what to expect..."></textarea>
+          </div>
+          <div class="field">
+            <label>Banner Image URL</label>
+            <input type="url" id="evImage" placeholder="https://images.unsplash.com/..." oninput="previewImage()">
+            <div id="imagePreview" style="margin-top:0.5rem;display:none;">
+              <img id="previewImg" style="width:100%;height:160px;object-fit:cover;border-radius:12px;border:1px solid var(--border)">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Venue / Location</label>
+              <input type="text" id="evLocation" placeholder="e.g. BK Arena, Kigali">
+            </div>
+            <div class="field">
+              <label>District</label>
+              <select id="evDistrict">
+                <option value="">Select...</option>
+                <option>Kigali City</option><option>Nyarugenge</option><option>Gasabo</option>
+                <option>Kicukiro</option><option>Huye</option><option>Musanze</option>
+                <option>Rubavu</option><option>Rwamagana</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Start Date & Time</label>
+              <input type="datetime-local" id="evDateTime">
+            </div>
+            <div class="field">
+              <label>End Date & Time</label>
+              <input type="datetime-local" id="evEndDateTime">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Price</label>
+              <input type="text" id="evPrice" placeholder="e.g. Free / 5,000 RWF">
+            </div>
+            <div class="field">
+              <label>Max Attendees</label>
+              <input type="number" id="evMaxAttendees" placeholder="Leave empty = unlimited" min="1">
+            </div>
+          </div>
+          <div class="field">
+            <label>Ticket / RSVP Link</label>
+            <input type="url" id="evTicketLink" placeholder="https://...">
+          </div>
+          <div class="field">
+            <label>Tags (comma-separated)</label>
+            <input type="text" id="evTags" placeholder="e.g. jazz, kigali, concert">
+          </div>
+          <!-- Custom fields -->
+          <div class="custom-fields-section">
+            <div class="cf-header">
+              <span>Custom Info Fields</span>
+              <button type="button" class="cf-add-btn" onclick="addCustomField()"><i class="fas fa-plus"></i> Add Field</button>
+            </div>
+            <div id="customFieldsList"></div>
+          </div>
+        </div>
+
+        <!-- Tab: Settings -->
+        <div class="event-tab-panel" id="etp-settings">
+          <div class="privacy-section">
+            <div class="ps-title"><i class="fas fa-user-shield"></i> Privacy Settings</div>
+            <p class="ps-desc">Control what others see about your event.</p>
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <strong>Hide Attendee Count</strong>
+                <span>Others won't see how many people are attending</span>
+              </div>
+              <label class="toggle"><input type="checkbox" id="prHideAttendeeCount"><span class="slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <strong>Hide Attendee List</strong>
+                <span>Others won't see who is attending</span>
+              </div>
+              <label class="toggle"><input type="checkbox" id="prHideAttendeeList"><span class="slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <strong>Disable Comments</strong>
+                <span>No one can comment on this event</span>
+              </div>
+              <label class="toggle"><input type="checkbox" id="prHideComments"><span class="slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <strong>Hide Insights</strong>
+                <span>Others won't see view counts</span>
+              </div>
+              <label class="toggle"><input type="checkbox" id="prHideInsights"><span class="slider"></span></label>
+            </div>
+          </div>
+
+          <!-- Status (for editing existing events) -->
+          <div class="privacy-section" id="statusSection" style="display:none;margin-top:1rem;">
+            <div class="ps-title"><i class="fas fa-signal"></i> Event Status</div>
+            <select id="evStatus" class="field" style="width:100%;padding:0.75rem;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:0.9rem;margin-top:0.5rem;">
+              <option value="active">🟢 Active</option>
+              <option value="postponed">🟡 Postponed</option>
+              <option value="over">🔴 Over</option>
+              <option value="cancelled">⚫ Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <div id="createModalAlert"></div>
+        <div style="display:flex;gap:0.75rem;justify-content:flex-end">
+          <button class="btn-cancel" onclick="closeCreateModal()">Cancel</button>
+          <button class="btn-post" id="postBtn" onclick="submitEvent()">
+            <i class="fas fa-paper-plane"></i> Publish Event
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Event Detail Modal ── -->
+  <div class="modal-overlay" id="detailModal" onclick="closeModalOnBg(event)">
+    <div class="modal-box detail-modal" id="detailContent">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <script src="script/dashboard.js"></script>
+  <script src="script/user.js"></script>
+</body>
+</html>
