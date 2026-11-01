@@ -32,6 +32,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...except the placeholder template, which must never contain real secrets.
+!.env.example
 
 # vercel
 .vercel
@@ -39,3 +41,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# adify runtime data (local dev database, outbox, uploads)
+/data/*.json
+/data/*.log
+!/data/.gitkeep
+/public/uploads/*
+!/public/uploads/.gitkeep

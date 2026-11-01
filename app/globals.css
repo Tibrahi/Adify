@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --color-adify-bg: #ffffff;
+  --color-adify-wash: #ddf5e4;
+  --color-adify-mist: #f2fbf4;
+  --color-adify-action: #247a45;
+  --color-adify-action-dark: #1b5c34;
+  --color-adify-ink: #171717;
+  --color-adify-muted: #666666;
+  --color-adify-line: #e5e7eb;
+  --color-adify-error: #b42318;
+  --color-adify-warn: #92400e;
+  --font-sans: "Roboto", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-adify-bg);
+  color: var(--color-adify-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-underline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-adify-action);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.card-cover {
+  aspect-ratio: 16 / 9;
+  background: var(--color-adify-mist);
+}
+
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
